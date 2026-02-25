@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pizzaria Turbo</title>
+
+<style>
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(180deg,#0d1b2a,#000);
+  color:white;
+  overflow-x:hidden;
+}
+
+header{
+  background:#1b263b;
+  padding:20px;
+  text-align:center;
+  font-size:24px;
+  font-weight:bold;
+  letter-spacing:2px;
+}
+
+.hero{
+  text-align:center;
+  padding:20px;
+}
+
+button{
+  background:#00b4ff;
+  border:none;
+  padding:12px;
+  border-radius:10px;
+  color:black;
+  font-weight:bold;
+  cursor:pointer;
+  width:100%;
+  margin-top:10px;
+}
+
+button:hover{
+  background:white;
+}
+
+.card{
+  background:#1b263b;
+  padding:15px;
+  margin:15px;
+  border-radius:15px;
+  box-shadow:0 0 15px #00b4ff;
+}
+
+#carrinho{
+  background:black;
+  padding:15px;
+  border-top:2px solid #00b4ff;
+}
+
+.animacao{
+  position:relative;
+  height:120px;
+  overflow:hidden;
+}
+
+/* animação ratinho */
+.mouse{
+  position:absolute;
+  left:-150px;
+  animation:correr 6s linear infinite;
+}
+
+@keyframes correr{
+  0%{left:-150px;}
+  100%{left:100%;}
+}
+</style>
+</head>
+
+<body>
+
+<header>PIZZARIA TURBO 🍕</header>
+
+<div class="hero">
+  <h2>Entrega rápida e sabor explosivo!</h2>
+</div>
+
+<div class="animacao">
+  <svg class="mouse" width="120" height="80">
+    <!-- corpo -->
+    <ellipse cx="40" cy="50" rx="30" ry="20" fill="white"/>
+    <!-- orelha -->
+    <circle cx="25" cy="30" r="10" fill="white"/>
+    <!-- olho -->
+    <circle cx="50" cy="45" r="3" fill="black"/>
+    <!-- pizza -->
+    <circle cx="80" cy="35" r="15" fill="orange"/>
+    <circle cx="75" cy="30" r="3" fill="red"/>
+    <circle cx="85" cy="40" r="3" fill="red"/>
+  </svg>
+</div>
+
+<div class="card">
+<h3>Calabresa</h3>
+<p>R$ 50,00</p>
+<button onclick="addItem('Calabresa',50)">Adicionar</button>
+</div>
+
+<div class="card">
+<h3>Quatro Queijos</h3>
+<p>R$ 60,00</p>
+<button onclick="addItem('Quatro Queijos',60)">Adicionar</button>
+</div>
+
+<div id="carrinho">
+<h3>Carrinho</h3>
+<ul id="lista"></ul>
+<p><strong>Total: R$ <span id="total">0</span></strong></p>
+<button onclick="finalizarPedido()">Finalizar Pedido</button>
+</div>
+
+<script>
+let carrinho = [];
+let total = 0;
+
+function addItem(nome, preco){
+  carrinho.push({nome, preco});
+  total += preco;
+  atualizar();
+}
+
+function atualizar(){
+  let lista = document.getElementById("lista");
+  lista.innerHTML="";
+  carrinho.forEach(item=>{
+    let li=document.createElement("li");
+    li.textContent=item.nome+" - R$ "+item.preco.toFixed(2);
+    lista.appendChild(li);
+  });
+  document.getElementById("total").textContent=total.toFixed(2);
+}
+
+function finalizarPedido(){
+  if(carrinho.length===0){
+    alert("Carrinho vazio!");
+    return;
+  }
+  let mensagem="Olá, pedido:%0A";
+  carrinho.forEach(item=>{
+    mensagem+="- "+item.nome+" R$ "+item.preco.toFixed(2)+"%0A";
+  });
+  mensagem+="%0ATotal: R$ "+total.toFixed(2);
+
+  window.open("https://wa.me/5585984273819?text="+mensagem);
+}
+</script>
+
+</body>
+</html>
